@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a little smth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            font-family: 'Lexend', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        #loginPage {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+        
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        #loginButton {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            align-self: center;
+        }
+        
+        #loginButton:disabled {
+            background-color: #d0d0d0;
+            color: #808080;
+            cursor: not-allowed;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Lexend', sans-serif;
+            transition: transform 0.1s;
+            margin: 0 10px;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #page1, #page2, #page3, #page4, #page5, #yippeeePage, #birthdayPage, #letterBoxPage, #finalPage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #buttonContainer {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        #timer {
+            margin-top: 10px;
+            color: black;
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        #message {
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        #hint {
+            margin-top: 10px;
+            color: #808080;
+            font-size: 0.9em;
+            text-align: center;
+            width: 100%;
+            display: none;
+        }
+
+        #page3 img, #page4 img, #page5 img, #yippeeePage img {
+            width: 200px;
+            height: auto;
+        }
+
+        #noButtonWarning {
+            color: red;
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        #yippeeePage {
+            background-color: black;
+            color: white;
+        }
+
+        #yippeeePage h1 {
+            font-size: 48px;
+            margin-top: 20px;
+        }
+
+        #birthdayPage {
+            background-color: black;
+            color: #304529;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .birthday-text {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            color: #304529;
+        }
+
+        .birthday-text.lit {
+            opacity: 1;
+            color: #304529;
+            text-shadow: 0 0 5px #304529, 0 0 10px #304529;
+        }
+
+        #birthdayNextButton {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #letterBox {
+            background-color: #304529;
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            font-size: 18px;
+            margin-top: 30px;
+            max-width: 90%;
+            width: 600px;
+            min-height: 400px;
+            word-wrap: break-word;
+            text-align: left;
+            line-height: 1.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .heart {
+            position: fixed;
+            color: #22311d;
+            font-size: 28px;
+            animation: fall 6s linear;
+            z-index: 2;
+            top: -20px;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        #doneButton {
+            margin-top: 20px;
+        }
+
+        #finalPage {
+            text-align: center;
+        }
+
+        #finalMessage {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #subMessage {
+            color: #304529;
+            font-size: 18px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .heart {
+                font-size: calc(28px * 0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Site Password">
+        <button id="loginButton">login</button>
+        <div id="message"></div>
+        <div id="timer"></div>
+        <div id="hint">hint: cjisextremely...... (i always say this)</div>
+    </div>
+
+    <div id="page1">
+        <button id="startButton">start?</button>
+    </div>
+
+    <div id="page2">
+        <h1>r u ready to hv the best birthday gift ever? 😝</h1>
+        <div id="buttonContainer">
+            <button id="yesButton">yes</button>
+            <button id="noButton">no</button>
+        </div>
+    </div>
+
+    <div id="page3">
+        <img src="https://media.tenor.com/arucnQ85wpUAAAAi/mochi-cat-what.gif" alt="Mochi cat what">
+        <h2>r u sure??</h2>
+        <div id="buttonContainer">
+            <button id="yesButton2">yes</button>
+            <button id="noButton2">no</button>
+        </div>
+    </div>
+
+    <div id="page4">
+        <img src="https://media.tenor.com/kt5xf6ob9_QAAAAi/mimibubu.gif" alt="Mimibubu">
+        <h2>whatttt, do u not want ur present? 😕</h2>
+        <div id="buttonContainer">
+            <button id="wantItButton">no, i want it</button>
+            <button id="dontWantItButton">yes, i dont want it</button>
+        </div>
+    </div>
+
+    <div id="page5">
+        <img src="https://media.tenor.com/HUJyzO0WfM4AAAAi/bubu-dudu.gif" alt="Bubu Dudu">
+        <h2>do u want ur gift, leilah? (if u say no then that means u dont love me ☹)</h2>
+        <div id="buttonContainer">
+            <button id="sorryButton">sorry, ill take the gift</button>
+            <button id="noButton3">no</button>
+        </div>
+        <div id="noButtonWarning">no more no 😡😡</div>
+    </div>
+
+    <div id="yippeeePage">
+        <img src="https://media.tenor.com/5nSKlBlwdkIAAAAi/cat.gif" alt="Happy cat">
+        <h1>YIPPEEEEEEE</h1>
+        <button id="nextButton">next</button>
+    </div>
+
+    <div id="birthdayPage">
+        <div id="birthdayText"></div>
+        <button id="birthdayNextButton">next</button>
+    </div>
+
+    <div id="letterBoxPage">
+        <div id="letterBox">hi babyyyy, happy birthday. this is the first time im actually spending ur birthday w u, no? im so fucking glad i decided to chase after u nd pester u all day everyday because we get to finally celebrate ur birthday tgt. anww, i js wanna say thank u. thank u for being born, for choosing to live despite all those pesky negative thoughts, for staying w me. basically, thank u, for everything. on this day, im making u a promise. i promise that i will be w u through ur ups nd downs, through the boring nd exciting days, through the sadness nd happiness. i promise that i will be here whenever u need me. im not going anywhere. i will stay w u for the rest of my life. i promise to help u w all ur problems as much as i can, so please tell me abt them, okay? im right here. tell me ur worries, nd ill listen. u dont hv to keep all those things to urself. i promise to always try my best to keep u happy, to not make u cry, to make u feel cherished nd appreciated. lastly, i promise to love u until the day that i die and in all the lives after that. to be honest, i want to see u so bad and celebrate ur birthday w u. but i cant rn, nd for that im terribly sorry. butttt, in js a year, on ur 15th birthday, ill fly to cali. im gonna book the earliest flight possible js to celebrate ur big day w u. so, for now, js try to deal w me not being w u LMFAOAOAOOO. ANWWWW HAPPY BIRTHDAY AGAIN, ND REMEMBER THAT I LOVE YOUUUUUU SO MUCH, MYLOVEEE 🤍🤍</div>
+        <button id="doneButton">done</button>
+    </div>
+
+    <div id="finalPage">
+        <div id="finalMessage">did u like it? 😝😝</div>
+        <div id="subMessage">(u can exit now. come text me, i miss u alrdy 😓)</div>
+    </div>
+
+    <div id="loader" class="loader"></div>
+
+    <script>
+        const loginPage = document.getElementById('loginPage');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const page3 = document.getElementById('page3');
+        const page4 = document.getElementById('page4');
+        const page5 = document.getElementById('page5');
+        const yippeeePage = document.getElementById('yippeeePage');
+        const birthdayPage = document.getElementById('birthdayPage');
+        const letterBoxPage = document.getElementById('letterBoxPage');
+        const finalPage = document.getElementById('finalPage');
+        const startButton = document.getElementById('startButton');
+        const loader = document.getElementById('loader');
+
+        const loginButton = document.getElementById('loginButton');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const timerDisplay = document.getElementById('timer');
+        const messageDisplay = document.getElementById('message');
+        const hintDisplay = document.getElementById('hint');
+
+        let heartInterval;
+        let isHeartAnimationRunning = false;
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(heart);
+
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        function startHeartAnimation() {
+            if (!isHeartAnimationRunning) {
+                isHeartAnimationRunning = true;
+                heartInterval = setInterval(createHeart, 100);
+                setTimeout(() => {
+                    clearInterval(heartInterval);
+                    isHeartAnimationRunning = false;
+                }, 6000);
+            }
+        }
+
+        let attemptCount = 0;
+        const maxAttempts = 3;
+        const correctPassword = "cjisextremelygorjas";
+        let lockoutTimeout;
+
+        let startTime;
+        let currentUser;
+        let userAnswer;
+
+        loginButton.addEventListener('click', function() {
+            if (passwordInput.value.toLowerCase() === correctPassword) {
+                messageDisplay.textContent = 'goodjob love 😚';
+                messageDisplay.style.color = 'green';
+                hintDisplay.style.display = 'none';
+                currentUser = usernameInput.value;
+                startTime = new Date();
+                setTimeout(() => {
+                    attemptCount = 0;
+                    loginPage.style.display = 'none';
+                    loader.style.display = 'block';
+
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                        page1.style.display = 'flex';
+                    }, 3000);
+                }, 1000);
+            } else {
+                attemptCount++;
+                if (attemptCount === 1) {
+                    messageDisplay.textContent = 'incorrect. try again dumbdumb';
+                    hintDisplay.style.display = 'none';
+                } else if (attemptCount === 2) {
+                    messageDisplay.textContent = 'incorrect again. what the hell leilah? 😕';
+                    hintDisplay.style.display = 'block';
+                } else {
+                    messageDisplay.textContent = 'ure an idiot. 😭 (try again in a minute 😝)';
+                    loginButton.disabled = true;
+                    startLockoutTimer();
+                }
+                messageDisplay.style.color = 'red';
+            }
+        });
+
+        function startLockoutTimer() {
+            let timeLeft = 60;
+            timerDisplay.style.display = 'block';
+            timerDisplay.textContent = `${timeLeft}`;
+
+            lockoutTimeout = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = `${timeLeft}`;
+                if (timeLeft <= 0) {
+                    clearInterval(lockoutTimeout);
+                    timerDisplay.style.display = 'none';
+                    loginButton.disabled = false;
+                    attemptCount = 0;
+                    hintDisplay.style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        startButton.addEventListener('click', function() {
+            page1.style.display = 'none';
+            loader.style.display = 'block';
+            
+            setTimeout(function() {
+                loader.style.display = 'none';
+                page2.style.display = 'flex';
+            }, 3000);
+        });
+
+        function showLoader() {
+            return new Promise(resolve => {
+                loader.style.display = 'block';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    resolve();
+                }, 3000);
+            });
+        }
+
+        function switchToPage3() {
+            page2.classList.add('fade-out');
+            setTimeout(() => {
+                page2.style.display = 'none';
+                showLoader().then(() => {
+                    page3.style.display = 'flex';
+                });
+            }, 500);
+        }
+
+        function switchToPage4() {
+            page3.classList.add('fade-out');
+            setTimeout(() => {
+                page3.style.display = 'none';
+                showLoader().then(() => {
+                    page4.style.display = 'flex';
+                });
+            }, 500);
+        }
+
+        function switchToPage5() {
+            page4.classList.add('fade-out');
+            setTimeout(() => {
+                page4.style.display = 'none';
+                showLoader().then(() => {
+                    page5.style.display = 'flex';
+                });
+            }, 500);
+        }
+
+        function switchToYippeePage() {
+            const currentPage = document.querySelector('div[style="display: flex;"]');
+            if (currentPage) {
+                currentPage.classList.add('fade-out');
+                setTimeout(() => {
+                    currentPage.style.display = 'none';
+                    showLoader().then(() => {
+                        yippeeePage.style.display = 'flex';
+                    });
+                }, 500);
+            }
+        }
+
+        document.getElementById('yesButton').addEventListener('click', function() {
+            userAnswer = 'YES';
+            switchToYippeePage();
+        });
+
+        document.getElementById('noButton').addEventListener('click', function() {
+            userAnswer = 'NO';
+            switchToPage3();
+        });
+
+        document.getElementById('yesButton2').addEventListener('click', function() {
+            userAnswer += ' -> YES';
+            switchToPage4();
+        });
+
+        document.getElementById('noButton2').addEventListener('click', function() {
+            userAnswer += ' -> NO';
+            switchToYippeePage();
+        });
+
+        document.getElementById('wantItButton').addEventListener('click', function() {
+            userAnswer += ' -> WANT IT';
+            switchToYippeePage();
+        });
+
+        document.getElementById('dontWantItButton').addEventListener('click', function() {
+            userAnswer += ' -> DON\'T WANT IT';
+            switchToPage5();
+        });
+
+        document.getElementById('sorryButton').addEventListener('click', function() {
+            userAnswer += ' -> SORRY, ILL TAKE THE GIFT';
+            switchToYippeePage();
+        });
+
+        document.getElementById('noButton3').addEventListener('click', function() {
+            userAnswer += ' -> NO';
+            this.style.opacity = '0.5';
+            this.disabled = true;
+            document.getElementById('noButtonWarning').style.display = 'block';
+        });
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            yippeeePage.classList.add('fade-out');
+            setTimeout(() => {
+                yippeeePage.style.display = 'none';
+                showLoader().then(() => {
+                    birthdayPage.style.display = 'flex';
+                    lightUpBirthdayText();
+                });
+            }, 500);
+        });
+
+        function lightUpBirthdayText() {
+            const text = "HAPPY BIRTHDAY SSOB";
+            const birthdayText = document.getElementById('birthdayText');
+            birthdayText.innerHTML = text.split('').map(char => 
+                `<span class="birthday-text">${char}</span>`
+            ).join('');
+
+            const chars = birthdayText.querySelectorAll('.birthday-text');
+            let currentIndex = 0;
+
+            function lightUpNextChar() {
+                if (currentIndex === 0) {
+                    chars.forEach(char => char.classList.remove('lit'));
+                }
+                chars[currentIndex].classList.add('lit');
+                currentIndex++;
+                
+                if (currentIndex < chars.length) {
+                    setTimeout(lightUpNextChar, 200);
+                } else {
+                    setTimeout(() => {
+                        chars.forEach((char, index) => {
+                            setTimeout(() => {
+                                char.classList.remove('lit');
+                            }, index * 100);
+                        });
+                        setTimeout(lightUpNextChar, 1500);
+                    }, 1000);
+                }
+
+                if (currentIndex === chars.length) {
+                    currentIndex = 0;
+                    document.getElementById('birthdayNextButton').style.display = 'block';
+                }
+            }
+
+            lightUpNextChar();
+        }
+
+        document.getElementById('birthdayNextButton').addEventListener('click', function() {
+            birthdayPage.classList.add('fade-out');
+            setTimeout(() => {
+                birthdayPage.style.display = 'none';
+                showLoader().then(() => {
+                    letterBoxPage.style.display = 'flex';
+                    startHeartAnimation();
+                });
+            }, 500);
+        });
+
+        document.getElementById('doneButton').addEventListener('click', function() {
+            letterBoxPage.classList.add('fade-out');
+            setTimeout(() => {
+                letterBoxPage.style.display = 'none';
+                showLoader().then(() => {
+                    finalPage.style.display = 'flex';
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
